@@ -92,4 +92,14 @@ TEST_CASE("Train"){
         train tr3(std::move(tr1));
         REQUIRE(tr1 != tr3);
     }
+
+    SECTION("Move and copy ="){
+        van *a = new van[10];
+        train tr1(a, 10), tr2;
+        tr2 = tr1;
+        REQUIRE(tr1 == tr2);
+        train tr3;
+        tr3 = (std::move(tr1));
+        REQUIRE(tr1 != tr3);
+    }
 }

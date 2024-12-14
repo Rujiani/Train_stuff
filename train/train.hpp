@@ -40,11 +40,11 @@ class train{
         vans[0] = vn;
     }
 
-    train(const train &other): vans(new van[other.size]), size(other.size), reserve_size(size){
+    train(const train &other): vans(new van[other.reserve_size]), size(other.size), reserve_size(other.reserve_size){
         std::copy_n(other.vans, size, vans);
     }
 
-    train(train &&other)noexcept:vans(other.vans), size(other.size), reserve_size(size){
+    train(train &&other)noexcept:vans(other.vans), size(other.size), reserve_size(other.reserve_size){
         other.size = 0;
         other.reserve_size = 0;
         other.vans = nullptr;
@@ -63,6 +63,10 @@ class train{
     bool operator != (const train &other)const{
         return !(*this == other);
     }
+
+    train& operator = (const train &other);
+
+    train& operator = (train &&other)noexcept;
 };
 
 }
