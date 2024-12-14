@@ -91,6 +91,7 @@ TEST_CASE("Train"){
         REQUIRE(tr1 == tr2);
         train tr3(std::move(tr1));
         REQUIRE(tr1 != tr3);
+        delete[]a;
     }
 
     SECTION("Move and copy ="){
@@ -101,6 +102,7 @@ TEST_CASE("Train"){
         train tr3;
         tr3 = (std::move(tr1));
         REQUIRE(tr1 != tr3);
+        delete[]a;
     }
 
     SECTION("input output"){
