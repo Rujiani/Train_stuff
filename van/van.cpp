@@ -15,4 +15,18 @@ capacity(cp), occupied_seats(os), type(tp){
         "Error: occupied_seats cannot increase capacity");
 }
 
+van& van::operator >>(van& other){
+    if(type != other.type)
+        throw invalid_argument("Cannot move passages from different types");
+    size_t both_cp = capacity + other.capacity,
+           both_os = occupied_seats + other.occupied_seats,
+           both_pr = countPercentage(both_cp, both_os);
+    
+    size_t temp_occupied_seats = static_cast<size_t>(static_cast<double>(capacity) *
+    (static_cast<double>(both_pr) * 0.01));
+    occupied_seats = temp_occupied_seats;
+    other.occupied_seats = both_os - temp_occupied_seats;
+    return *this;
+}
+
 }

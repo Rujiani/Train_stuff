@@ -11,7 +11,7 @@ using std::invalid_argument;
 namespace mgt {
 
 enum van_type{
-    restaurant = 0,
+    restaurant,
     seated,
     economy,
     luxury
@@ -28,6 +28,13 @@ class van{
     private:
     size_t capacity, occupied_seats;
     van_type type;
+
+    size_t countPercentage(size_t capacity, size_t occupied_seats)const noexcept{
+        if(!capacity)
+            return 0;
+        return static_cast<size_t>
+        ((static_cast<double>(occupied_seats)/static_cast<double>(capacity)) * 100);
+    }
     public:
 
     van()noexcept : capacity{0}, occupied_seats{0},
@@ -45,10 +52,7 @@ class van{
     size_t getType()const noexcept{return type;}
 
     size_t percentage()const noexcept{
-        if(!capacity)
-            return 0;
-        return static_cast<size_t>
-        ((static_cast<double>(occupied_seats)/static_cast<double>(capacity)) * 100);
+        return countPercentage(capacity, occupied_seats);
     }
 
     void setCapacity(size_t cp){
@@ -73,6 +77,7 @@ class van{
         type = tp;
     }
 
+    van& operator >>(van&);
 };
 
 }

@@ -30,4 +30,15 @@ TEST_CASE("Van"){
         REQUIRE_THROWS_AS(van.setType(restaurant), invalid_argument);
         REQUIRE(van.percentage() == 90);
     }
+
+    SECTION("move operator >>"){
+        van a(40, 25, seated), b(10, 0, luxury);
+        REQUIRE_THROWS_AS(a >> b, invalid_argument);
+        b.setType(seated);
+        REQUIRE_NOTHROW(a >> b);
+        REQUIRE(a.percentage() == b.percentage());
+        REQUIRE(a.percentage() == 50);
+        REQUIRE(a.getOccupiedSeats() == 20);
+        REQUIRE(b.getOccupiedSeats() == 5);
+    }
 }
