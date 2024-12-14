@@ -1,5 +1,6 @@
 #include "van.hpp"
 #include <stdexcept>
+#include <exception>
 
 using std::invalid_argument;
 
@@ -17,7 +18,7 @@ capacity(cp), occupied_seats(os), type(tp){
 
 van& van::operator >>(van& other){
     if(type != other.type)
-        throw invalid_argument("Cannot move passages from different types");
+        throw invalid_argument("Cannot move passengers from different types");
     size_t both_cp = capacity + other.capacity,
            both_os = occupied_seats + other.occupied_seats,
            both_pr = countPercentage(both_cp, both_os);
@@ -27,6 +28,25 @@ van& van::operator >>(van& other){
     occupied_seats = temp_occupied_seats;
     other.occupied_seats = both_os - temp_occupied_seats;
     return *this;
+}
+
+void van::input(std::istream &is){
+    size_t cp, os;
+    std::string temp, tp_str;
+    van_type tmp;
+    is >> temp >> tp_str;
+    if(is){
+        try{
+            size_t pos = temp.find('/');
+            os = std::stol(temp.substr(0, pos));
+            cp = std::stol(temp.substr(pos + 1, temp.length() - pos));
+            tmp = str_to_type.find(tp_str)->second;
+            *this = van(cp, os, tmp);
+        }
+        catch(std::exception &ex){
+            is.setstate(std::istream::failbit);
+        }
+    }
 }
 
 }

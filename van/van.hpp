@@ -2,8 +2,12 @@
 #define VAN_HPP_
 
 #include <cstddef>
+#include <cstdlib>
 #include <map>
+#include <iostream>
 #include <stdexcept>
+#include <format>
+#include <string>
 
 using std::invalid_argument;
 
@@ -22,6 +26,20 @@ const std::map<van_type, size_t> default_capacity{
     {seated, 80},
     {economy, 54},
     {luxury, 12}
+};
+
+const std::map<van_type, std::string> type_to_str{
+    {restaurant, "restaurant"},
+    {seated, "seated"},
+    {economy, "economy"},
+    {luxury, "luxury"}
+};
+
+const std::map<std::string, van_type> str_to_type{
+    {"restaurant", restaurant},
+    {"seated", seated},
+    {"economy", economy},
+    {"luxury", luxury}
 };
 
 class van{
@@ -78,6 +96,32 @@ class van{
     }
 
     van& operator >>(van&);
+
+    void addPassengers(size_t ps){
+        setOccupiedSeats(occupied_seats + ps);
+    }
+
+    void removePassengers(size_t ps){
+        setOccupiedSeats((occupied_seats < ps)?0 : occupied_seats - ps);
+    }
+
+    void output(std::ostream &os)const{
+        os << std::format("{}/{} {}", occupied_seats, capacity, type_to_str.find(type)->second);
+    }
+
+    void input(std::istream &is);
+
+    friend std::istream& operator >> (std::istream& is, van &v){
+        v.input(is);
+        return is;
+    }
+
+    friend std::ostream& operator << (std::ostream& os, van &v){
+        v.output(os);
+        return os;
+    }
+
+
 };
 
 }

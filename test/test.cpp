@@ -1,6 +1,7 @@
 #include "../van/van.hpp"
 #include <catch2/catch_all.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <sstream>
 #include <stdexcept>
 
 using namespace mgt;
@@ -40,5 +41,34 @@ TEST_CASE("Van"){
         REQUIRE(a.percentage() == 50);
         REQUIRE(a.getOccupiedSeats() == 20);
         REQUIRE(b.getOccupiedSeats() == 5);
+    }
+
+    SECTION("Output"){
+        std::ostringstream ostr;
+        van a(12, 2, seated);
+        ostr << a;
+        REQUIRE(ostr.str() == "2/12 seated");
+    }
+
+    SECTION("Input"){
+        van a;
+        std::istringstream istr("13/14 seated");
+        istr >> a;
+        REQUIRE(a.getCapacity() == 14);
+        REQUIRE(a.getOccupiedSeats() == 13);
+        REQUIRE(a.getType() == seated);
+        istr.str("15/1 restaurant");
+        istr >> a;
+        REQUIRE(!istr); 
+    }
+
+    SECTION("Add and remove pass"){
+        van a(15, 2, seated);
+        REQUIRE_NOTHROW(a.addPassengers(12));
+        REQUIRE(a.getOccupiedSeats() == 14);
+        REQUIRE_NOTHROW(a.removePassengers(2));
+        REQUIRE(a.getOccupiedSeats() == 12);
+        REQUIRE_NOTHROW(a.removePassengers(40));
+        REQUIRE(!a.getOccupiedSeats());
     }
 }
