@@ -130,6 +130,8 @@ class van{
         removePassengers(num);
         return *this;
     }
+
+    bool operator == (const van &other)const = default;
 };
 
 }

@@ -72,3 +72,24 @@ TEST_CASE("Van"){
         REQUIRE(!a.getOccupiedSeats());
     }
 }
+
+#include "../train/train.hpp"
+
+TEST_CASE("Train"){
+    SECTION("operator == "){
+        van *a = new van[10], *b = new van[2];
+        train tr1(a, 10), tr2(a, 10), tr3(b, 2);
+        REQUIRE(tr1 == tr2);
+        REQUIRE(tr1 != tr3);
+        delete [] a;
+        delete [] b;
+    }
+
+    SECTION("Move and copy construct"){
+        van *a = new van[10];
+        train tr1(a, 10), tr2(tr1);
+        REQUIRE(tr1 == tr2);
+        train tr3(std::move(tr1));
+        REQUIRE(tr1 != tr3);
+    }
+}
