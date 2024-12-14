@@ -103,6 +103,14 @@ class train{
             throw std::range_error("Out of train range");
         return vans[index];
     }
+
+    void operator += (const van &v){
+        if(size == reserve_size)
+            double_size();
+        vans[size++] = v;
+    }
+
+    size_t getSize()const noexcept{return size;}
 };
 
 }

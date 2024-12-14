@@ -120,4 +120,13 @@ TEST_CASE("Train"){
         REQUIRE_THROWS(tr[43]);
         delete[] a;
     }
+
+    SECTION("+="){
+        van temp = van{23, 12, seated};
+        train a(van{23, 12, seated});
+        REQUIRE_NOTHROW(a += temp);
+        REQUIRE(a[0] == temp);
+        REQUIRE(a[1] == temp);
+        REQUIRE(a.getSize() == 2);
+    }
 }
