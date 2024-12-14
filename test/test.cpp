@@ -140,4 +140,17 @@ TEST_CASE("Train"){
         REQUIRE(a.getSize() == 1);
         REQUIRE_THROWS(a[1]);        
     }
+
+    SECTION("Add to min"){
+        van *a = new van[3];
+        a[0] = van(12, 5, seated);
+        a[1] = van(12, 5, seated);
+        a[2] = van(12, 3, seated);
+
+        train tr(a, 3);
+        delete []a;
+
+        tr.sitInMin(4);
+        REQUIRE(tr[2].getOccupiedSeats() == 7);
+    }
 }

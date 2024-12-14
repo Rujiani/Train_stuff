@@ -124,6 +124,8 @@ class train{
             vans[index] = vans[size];
         check_size();
     }
+
+    void sitInMin(size_t numOfPass);
 };
 
 }
