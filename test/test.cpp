@@ -131,4 +131,13 @@ TEST_CASE("Train"){
         REQUIRE(a[1] == temp);
         REQUIRE(a.getSize() == 2);
     }
+
+    SECTION("Deleting van"){
+        van temp = van{23, 12, seated};
+        train a(van{23, 12, seated});
+        a += temp;
+        a.deleteVan(1);
+        REQUIRE(a.getSize() == 1);
+        REQUIRE_THROWS(a[1]);        
+    }
 }

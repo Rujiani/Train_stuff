@@ -29,6 +29,11 @@ class train{
         reserve_size /= 2;
     }
 
+    void check_size(){
+        if(reserve_size / 2 == size)
+            halve_size();
+    }
+
     public:
 
     train()noexcept : vans(new van[1]), size(0), reserve_size(1){}
@@ -111,6 +116,14 @@ class train{
     }
 
     size_t getSize()const noexcept{return size;}
+
+    void deleteVan(size_t index){
+        if(index >= size)
+            throw std::range_error("Out of train range");
+        if(index != --size)
+            vans[index] = vans[size];
+        check_size();
+    }
 };
 
 }
