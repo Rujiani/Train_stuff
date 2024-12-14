@@ -101,17 +101,17 @@ class van{
         setOccupiedSeats(occupied_seats + ps);
     }
 
-    void removePassengers(size_t ps){
+    void removePassengers(size_t ps)noexcept{
         setOccupiedSeats((occupied_seats < ps)?0 : occupied_seats - ps);
     }
 
-    void output(std::ostream &os)const{
+    void output(std::ostream &os)const noexcept{
         os << std::format("{}/{} {}", occupied_seats, capacity, type_to_str.find(type)->second);
     }
 
     void input(std::istream &is);
 
-    friend std::istream& operator >> (std::istream& is, van &v){
+    friend std::istream& operator >> (std::istream& is, van &v)noexcept{
         v.input(is);
         return is;
     }
@@ -121,7 +121,15 @@ class van{
         return os;
     }
 
+    van& operator += (size_t num){
+        addPassengers(num);
+        return *this;
+    }
 
+    van& operator -= (size_t num)noexcept{
+        removePassengers(num);
+        return *this;
+    }
 };
 
 }
