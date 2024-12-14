@@ -30,7 +30,7 @@ van& van::operator >>(van& other){
     return *this;
 }
 
-void van::input(std::istream &is){
+void van::input(std::istream &is)noexcept{
     size_t cp, os;
     std::string temp, tp_str;
     van_type tmp;

@@ -3,6 +3,7 @@
 
 #include "../van/van.hpp"
 #include <algorithm>
+#include <stdexcept>
 
 namespace mgt {
 
@@ -67,6 +68,41 @@ class train{
     train& operator = (const train &other);
 
     train& operator = (train &&other)noexcept;
+
+    void output(std::ostream &os)const noexcept{
+        os << "{";
+        std::for_each_n(vans, size - 1, [&os](auto &i){os << i << ", ";});
+        os << vans[size - 1] << "}";
+    }
+
+    void input(std::istream &is)noexcept{
+        van temp;
+        is >> temp;
+        if(is)
+            *this = train(temp);
+    }
+
+    friend std::ostream& operator << (std::ostream &os, const train& tr)noexcept{
+        tr.output(os);
+        return os;
+    }
+
+    friend std::istream& operator >> (std::istream &is, train &tr)noexcept{
+        tr.input(is);
+        return is;
+    }
+
+    van& operator [](size_t index){
+        if(index >= size)
+            throw std::range_error("Out of train range");
+        return vans[index];
+    }
+
+    const van& operator[](size_t index)const{
+        if(index >= size)
+            throw std::range_error("Out of train range");
+        return vans[index];
+    }
 };
 
 }

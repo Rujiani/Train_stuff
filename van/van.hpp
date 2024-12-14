@@ -109,14 +109,14 @@ class van{
         os << std::format("{}/{} {}", occupied_seats, capacity, type_to_str.find(type)->second);
     }
 
-    void input(std::istream &is);
+    void input(std::istream &is)noexcept;
 
     friend std::istream& operator >> (std::istream& is, van &v)noexcept{
         v.input(is);
         return is;
     }
 
-    friend std::ostream& operator << (std::ostream& os, van &v){
+    friend std::ostream& operator << (std::ostream& os,const van &v)noexcept{
         v.output(os);
         return os;
     }

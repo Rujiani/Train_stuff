@@ -102,4 +102,22 @@ TEST_CASE("Train"){
         tr3 = (std::move(tr1));
         REQUIRE(tr1 != tr3);
     }
+
+    SECTION("input output"){
+        std::istringstream istr("12/13, seated");
+        train a;
+        istr >> a;
+        REQUIRE(istr);
+        std::ostringstream ostr;
+        ostr << a;
+        REQUIRE(ostr.str() == "{12/13 seated}");
+    }
+
+    SECTION("Operator []"){
+        van *a = new van[12];
+        train tr(a, 12);
+        REQUIRE(tr[0] == tr[1]);
+        REQUIRE_THROWS(tr[43]);
+        delete[] a;
+    }
 }
